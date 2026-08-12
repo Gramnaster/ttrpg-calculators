@@ -6,6 +6,7 @@ const OpposedRollCalculator = lazy(() => import("./calculators/opposed-roll"));
 const DifferentialRollCalculator = lazy(
   () => import("./calculators/differential-roll"),
 );
+const TorRollCalculator = lazy(() => import("./calculators/tor-roll"));
 
 const navLinkClassName = ({ isActive }: { isActive: boolean }) =>
   [
@@ -50,6 +51,11 @@ export function App() {
               Differential Roll
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/tor-roll" viewTransition className={navLinkClassName}>
+              TOR Roll
+            </NavLink>
+          </li>
         </ul>
       </nav>
       <main className="px-8 py-10">
@@ -86,6 +92,20 @@ export function App() {
                   }
                 >
                   <DifferentialRollCalculator />
+                </Suspense>
+              </CalculatorErrorBoundary>
+            }
+          />
+          <Route
+            path="/tor-roll"
+            element={
+              <CalculatorErrorBoundary>
+                <Suspense
+                  fallback={
+                    <p className="text-ink-muted">Loading calculator…</p>
+                  }
+                >
+                  <TorRollCalculator />
                 </Suspense>
               </CalculatorErrorBoundary>
             }
