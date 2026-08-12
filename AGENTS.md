@@ -80,6 +80,7 @@ These meta and productivity skills are not tied to a specific agent — any agen
 | `checkpoint` | Mid-session save before risky changes or task switches — commit + brief handoff |
 | `workflow-mastery` | Context running low, large exploration, parallel workflows, subagent strategy |
 | `convention-learner` | Detect and enforce project-specific conventions in new code |
+| `readme` | `README.md` needs an update — new calculator, changed dev command, changed stack version |
 
 Model selection guidance lives in the always-loaded `.claude/rules/agents.md` — no skill load needed.
 
@@ -93,6 +94,7 @@ Model selection guidance lives in the always-loaded `.claude/rules/agents.md` �
 | "context", "running out of tokens", "too many files" | workflow-mastery |
 | "review this", "what should I review" | code-review |
 | "fix build loop", "keep fixing", "auto-fix" | build-fix |
+| "update the readme", "write a readme", "document the project" | readme |
 
 ## Slash Commands
 
@@ -113,6 +115,7 @@ Each workflow skill registers its own slash command and carries its methodology 
 | `/de-sloppify` | — | refactor-cleaner | Systematic code cleanup |
 | `/wrap-up` | instinct-system | — | Session handoff lifecycle (end + start) |
 | `/outdated` | — | devops-engineer | Dependency health: staleness, CVEs |
+| `/readme` | — | — | `README.md` maintenance under ASD-STE100 |
 
 Instinct operations (status, export, import) are modes of the `instinct-system` skill — say "show instincts", "export instincts", or "import instincts".
 
