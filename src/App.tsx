@@ -19,7 +19,7 @@ const navLinkClassName = ({ isActive }: { isActive: boolean }) =>
 
 export function App() {
   return (
-    <div className="grid min-h-svh grid-cols-[240px_1fr]">
+    <div className="mx-auto grid min-h-svh w-full max-w-7xl grid-cols-[240px_1fr]">
       <nav
         aria-label="Calculators"
         className="flex flex-col gap-8 border-r border-rule px-6 py-8"
