@@ -58,7 +58,7 @@ export function App() {
           </li>
         </ul>
       </nav>
-      <main className="px-8 py-10">
+      <main className="flex items-start justify-center px-8 py-10">
         <Routes>
           <Route
             path="/"
