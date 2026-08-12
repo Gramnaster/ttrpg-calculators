@@ -19,7 +19,7 @@ export function OpposedRollCalculator() {
   return (
     <section
       aria-labelledby="opposed-roll-heading"
-      className="flex max-w-3xl flex-col gap-8"
+      className="flex max-w-4xl flex-col gap-8"
     >
       <div>
         <h2
