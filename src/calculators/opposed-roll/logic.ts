@@ -2,6 +2,10 @@ const MIN_SKILL = 1;
 const MAX_SKILL = 100;
 const EFFECTIVE_SKILL_FLOOR = 5;
 const DIE_FACES = 100;
+// 95-00 always fails as a moderate failure, even against an effective skill
+// high enough to otherwise succeed. Rolls that fail on their own merits keep
+// their normal critical-failure-on-doubles classification.
+const AUTO_FAIL_MIN_ROLL = 95;
 
 export type SuccessLevel =
   "criticalFailure" | "moderateFailure" | "moderateSuccess" | "criticalSuccess";
@@ -26,8 +30,20 @@ export interface OpposedRollProbabilities {
   winB: number;
   tie: number;
   winACriticalSuccess: number;
-  winBCriticalSuccess: number;
+  lossACriticalSuccess: number;
+  winAModerateSuccess: number;
+  lossAModerateSuccess: number;
+  winAModerateFailure: number;
+  lossAModerateFailure: number;
+  winACriticalFailure: number;
   lossACriticalFailure: number;
+  winBCriticalSuccess: number;
+  lossBCriticalSuccess: number;
+  winBModerateSuccess: number;
+  lossBModerateSuccess: number;
+  winBModerateFailure: number;
+  lossBModerateFailure: number;
+  winBCriticalFailure: number;
   lossBCriticalFailure: number;
 }
 
@@ -44,11 +60,14 @@ function classifyRoll(
   roll: number,
   useAltCrit: boolean,
 ): SuccessLevel {
-  const isSuccess = roll <= effectiveSkill;
+  const wouldSucceed = roll <= effectiveSkill;
   const isDouble = roll % 11 === 0; // 11, 22, ..., 99
   const isMultipleOfTen = useAltCrit && roll % 10 === 0; // 10, 20, ..., 100
 
-  if (isSuccess) {
+  if (wouldSucceed && roll >= AUTO_FAIL_MIN_ROLL) {
+    return "moderateFailure";
+  }
+  if (wouldSucceed) {
     return isDouble || isMultipleOfTen ? "criticalSuccess" : "moderateSuccess";
   }
   return isDouble ? "criticalFailure" : "moderateFailure";
@@ -105,8 +124,16 @@ export function resolveOpposedRoll(
   let winB = 0;
   let tie = 0;
   let winACriticalSuccess = 0;
-  let winBCriticalSuccess = 0;
+  let lossACriticalSuccess = 0;
+  let winAModerateSuccess = 0;
+  let lossAModerateSuccess = 0;
+  let lossAModerateFailure = 0;
   let lossACriticalFailure = 0;
+  let winBCriticalSuccess = 0;
+  let lossBCriticalSuccess = 0;
+  let winBModerateSuccess = 0;
+  let lossBModerateSuccess = 0;
+  let lossBModerateFailure = 0;
   let lossBCriticalFailure = 0;
 
   const totalOutcomes = DIE_FACES * DIE_FACES;
@@ -119,12 +146,23 @@ export function resolveOpposedRoll(
 
       if (winner === "a") {
         winA++;
+        // A can only out-rank B while at moderateSuccess or criticalSuccess (see compareRolls' bothMissed guard).
         if (levelA === "criticalSuccess") winACriticalSuccess++;
-        if (levelB === "criticalFailure") lossBCriticalFailure++;
+        else if (levelA === "moderateSuccess") winAModerateSuccess++;
+
+        if (levelB === "criticalSuccess") lossBCriticalSuccess++;
+        else if (levelB === "moderateSuccess") lossBModerateSuccess++;
+        else if (levelB === "moderateFailure") lossBModerateFailure++;
+        else lossBCriticalFailure++;
       } else if (winner === "b") {
         winB++;
         if (levelB === "criticalSuccess") winBCriticalSuccess++;
-        if (levelA === "criticalFailure") lossACriticalFailure++;
+        else if (levelB === "moderateSuccess") winBModerateSuccess++;
+
+        if (levelA === "criticalSuccess") lossACriticalSuccess++;
+        else if (levelA === "moderateSuccess") lossAModerateSuccess++;
+        else if (levelA === "moderateFailure") lossAModerateFailure++;
+        else lossACriticalFailure++;
       } else {
         tie++;
       }
@@ -140,8 +178,21 @@ export function resolveOpposedRoll(
       winB: (winB / totalOutcomes) * 100,
       tie: (tie / totalOutcomes) * 100,
       winACriticalSuccess: (winACriticalSuccess / totalOutcomes) * 100,
-      winBCriticalSuccess: (winBCriticalSuccess / totalOutcomes) * 100,
+      lossACriticalSuccess: (lossACriticalSuccess / totalOutcomes) * 100,
+      winAModerateSuccess: (winAModerateSuccess / totalOutcomes) * 100,
+      lossAModerateSuccess: (lossAModerateSuccess / totalOutcomes) * 100,
+      // A can never win while at moderateFailure or criticalFailure (see compareRolls' bothMissed guard).
+      winAModerateFailure: 0,
+      lossAModerateFailure: (lossAModerateFailure / totalOutcomes) * 100,
+      winACriticalFailure: 0,
       lossACriticalFailure: (lossACriticalFailure / totalOutcomes) * 100,
+      winBCriticalSuccess: (winBCriticalSuccess / totalOutcomes) * 100,
+      lossBCriticalSuccess: (lossBCriticalSuccess / totalOutcomes) * 100,
+      winBModerateSuccess: (winBModerateSuccess / totalOutcomes) * 100,
+      lossBModerateSuccess: (lossBModerateSuccess / totalOutcomes) * 100,
+      winBModerateFailure: 0,
+      lossBModerateFailure: (lossBModerateFailure / totalOutcomes) * 100,
+      winBCriticalFailure: 0,
       lossBCriticalFailure: (lossBCriticalFailure / totalOutcomes) * 100,
     },
   };
