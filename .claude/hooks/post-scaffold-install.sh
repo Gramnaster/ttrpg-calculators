@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Post-scaffold hook: run npm install after package.json changes
+# Post-scaffold hook: run pnpm install after package.json changes
 # Triggered when package.json is created or modified.
 #
 # Usage:
@@ -34,10 +34,10 @@ if [[ -n "$FILE" ]]; then
     esac
 fi
 
-echo "package.json changed. Running npm install..."
+echo "package.json changed. Running pnpm install..."
 
-if npm install --silent 2>/dev/null; then
+if pnpm install --silent 2>/dev/null; then
     echo "Install completed."
 else
-    echo "Warning: npm install failed. You may need to install manually."
+    echo "Warning: pnpm install failed. You may need to install manually."
 fi

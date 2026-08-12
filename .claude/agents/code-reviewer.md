@@ -33,8 +33,8 @@ Also always reference:
 ## Tool Usage
 
 No MCP tooling — use `Grep`/`Glob`/`Read` directly, plus:
-- `npx tsc --noEmit` — check for new type errors
-- `npx eslint .` — check for new lint issues
+- `pnpm exec tsc --noEmit` — check for new type errors
+- `pnpm exec eslint .` — check for new lint issues
 - `Grep` for `transition:|animation:` touching non-`transform`/`opacity` properties in changed `.css`/`.tsx` files — this is the single highest-value grep in this codebase given `rules/animations.md`
 
 ## Response Patterns

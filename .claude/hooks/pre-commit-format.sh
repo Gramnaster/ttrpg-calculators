@@ -6,9 +6,9 @@ set -uo pipefail
 
 echo "Checking code formatting..."
 
-if npx --no-install prettier --check . 2>/dev/null; then
+if pnpm exec prettier --check . 2>/dev/null; then
     echo "Format check passed."
 else
-    echo "Format check failed. Run 'npx prettier --write .' to fix formatting issues."
+    echo "Format check failed. Run 'pnpm exec prettier --write .' to fix formatting issues."
     exit 1
 fi

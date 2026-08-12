@@ -2,7 +2,7 @@
 name: project-setup
 description: >
   Interactive project scaffolding and health-check workflows for the Vite +
-  React + TS app. Guides initialization (npm create vite, ESLint/Prettier/
+  React + TS app. Guides initialization (pnpm create vite, ESLint/Prettier/
   Vitest/GH Pages Actions setup, CLAUDE.md generation) and codebase health
   analysis. Load when: "init project", "setup project", "new project",
   "health check", "analyze project", "project report", "generate CLAUDE.md",
@@ -14,7 +14,7 @@ description: >
 ## Core Principles
 
 1. **Interactive over passive** — don't dump a generic template. Confirm the choices this kit already made (see `knowledge/decisions/`) rather than re-asking, but do ask about anything genuinely undecided (a new calculator's name, a package manager preference if it ever comes up).
-2. **Verify versions, don't recall them.** Every `npm install` in this workflow installs latest-stable, no hardcoded version numbers (`rules/packages.md`).
+2. **Verify versions, don't recall them.** Every `pnpm add` in this workflow installs latest-stable, no hardcoded version numbers (`rules/packages.md`).
 3. **Generate, don't template.** Any CLAUDE.md or config file produced should be fully populated for this actual project, not left with `[PLACEHOLDER]` values.
 4. **Verify after action.** After scaffolding, actually run the build/lint/test commands to confirm the setup works — don't just assert it will.
 
@@ -27,7 +27,7 @@ Run once, at the start of the project. Execute in order.
 **Step 1: Scaffold via Vite**
 
 ```bash
-npm create vite@latest . -- --template react-ts
+pnpm create vite@latest . -- --template react-ts
 ```
 
 (Or into a subdirectory instead of `.` if the current directory isn't meant to be the app root.) This installs React 19.x, TypeScript, and a working ESLint flat config (`typescript-eslint` + `eslint-plugin-react-hooks` + `eslint-plugin-react-refresh`) as of the current Vite template — don't hand-assemble these when the official template already does it correctly.
@@ -35,8 +35,8 @@ npm create vite@latest . -- --template react-ts
 **Step 2: Install the additional stack pieces**
 
 ```bash
-npm install react-router
-npm install -D vitest @testing-library/react @testing-library/jest-dom jsdom prettier
+pnpm add react-router
+pnpm add -D vitest @testing-library/react @testing-library/jest-dom jsdom prettier
 ```
 
 **Step 3: Configure Vitest**
@@ -74,10 +74,10 @@ See `skills/ci-cd` for the full GitHub Actions workflow and the `vite.config.ts`
 **Step 6: Verify**
 
 ```bash
-npm run build
-npx tsc --noEmit
-npx eslint .
-npx vitest run
+pnpm run build
+pnpm exec tsc --noEmit
+pnpm exec eslint .
+pnpm exec vitest run
 ```
 
 All four should pass clean before considering setup complete.
@@ -88,7 +88,7 @@ Run when asked "check health", "analyze the project", or "how's the codebase".
 
 **Step 1: Structure scan** — `Glob` on `src/calculators/**`; confirm each calculator has `logic.ts` + a component + tests (per `rules/architecture.md`).
 
-**Step 2: Diagnostics** — `npx tsc --noEmit` and `npx eslint .`; count and categorize issues.
+**Step 2: Diagnostics** — `pnpm exec tsc --noEmit` and `pnpm exec eslint .`; count and categorize issues.
 
 **Step 3: Antipattern scan** — grep for the patterns in `knowledge/common-antipatterns.md` (animating layout properties, `any`, inline math in components, defensive memoization).
 
@@ -135,14 +135,14 @@ Grading scale: A (90-100) production-ready · B (75-89) good shape · C (60-74) 
 
 ```bash
 # BAD — scaffold and declare done without checking it works
-npm create vite@latest . -- --template react-ts
+pnpm create vite@latest . -- --template react-ts
 echo "Setup complete!"
 ```
 
 ```bash
 # GOOD — scaffold, then prove it
-npm create vite@latest . -- --template react-ts
-npm install && npm run build && npx tsc --noEmit
+pnpm create vite@latest . -- --template react-ts
+pnpm install && pnpm run build && pnpm exec tsc --noEmit
 ```
 
 ## Decision Guide

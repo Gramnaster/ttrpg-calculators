@@ -33,7 +33,7 @@ useEffect(() => {
 ## Bundle Budget (GitHub Pages)
 
 - **Route-level code splitting per calculator.** Each calculator is a separate lazy-loaded chunk (`React.lazy` + route-level `Suspense`) so visiting one calculator doesn't download the others. See `skills/ci-cd` and `skills/animations` for how this pairs with route transitions.
-- **Audit bundle size before adding a dependency.** A charting library, a big icon set, or a UI kit can easily outweigh the entire rest of the app. Check the package's bundle size (bundlephobia.com or `npx vite-bundle-visualizer` after adding it) before committing to it. Prefer a dependency-free implementation for anything genuinely small (a stepper input, a simple bar chart for a probability distribution).
+- **Audit bundle size before adding a dependency.** A charting library, a big icon set, or a UI kit can easily outweigh the entire rest of the app. Check the package's bundle size (bundlephobia.com or `pnpm exec vite-bundle-visualizer` after adding it) before committing to it. Prefer a dependency-free implementation for anything genuinely small (a stepper input, a simple bar chart for a probability distribution).
 - **No heavy runtime dependency for something CSS or a `<canvas>` can do.** A probability distribution bar chart doesn't need a charting library.
 
 ## Async and Loading

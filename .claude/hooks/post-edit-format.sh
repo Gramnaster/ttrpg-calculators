@@ -40,7 +40,7 @@ esac
 [[ ! -f "$FILE" ]] && exit 0
 
 # Find the nearest package.json to confirm we're inside a Node project before
-# invoking npx (avoids npx trying to fetch prettier in a non-JS directory).
+# invoking pnpm exec (avoids pnpm exec erroring in a non-JS directory).
 DIR=$(dirname "$FILE")
 PROJECT_ROOT=""
 while [[ "$DIR" != "/" && "$DIR" != "." ]]; do
@@ -58,10 +58,10 @@ if [[ -z "$PROJECT_ROOT" ]]; then
     exit 0
 fi
 
-npx --no-install prettier --write "$FILE" 2>/dev/null || true
+pnpm exec prettier --write "$FILE" 2>/dev/null || true
 
 case "$FILE" in
-    *.ts|*.tsx|*.js|*.jsx) npx --no-install eslint --fix "$FILE" 2>/dev/null || true ;;
+    *.ts|*.tsx|*.js|*.jsx) pnpm exec eslint --fix "$FILE" 2>/dev/null || true ;;
 esac
 
 exit 0

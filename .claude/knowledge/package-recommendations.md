@@ -8,7 +8,7 @@
 |---|---|---|
 | `react`, `react-dom` | UI runtime | Current stable major, 19.x |
 | `react-router` | Client-side routing with View Transitions support | v8 — note `react-router-dom` was removed; install `react-router` only (see [ADR-002](decisions/002-react-router-view-transitions.md)) |
-| `vite`, `@vitejs/plugin-react` | Build tool + React fast refresh | Vite's own scaffold (`npm create vite@latest -- --template react-ts`) sets these up correctly — prefer that over hand-assembling |
+| `vite`, `@vitejs/plugin-react` | Build tool + React fast refresh | Vite's own scaffold (`pnpm create vite@latest -- --template react-ts`) sets these up correctly — prefer that over hand-assembling |
 | `typescript` | Type checking | Strict mode on (see `rules/coding-style.md`) |
 
 ## Linting and Formatting

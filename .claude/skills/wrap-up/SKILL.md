@@ -75,7 +75,7 @@ Good learning: "Vite's `base` path must match the repo name exactly, confirmed a
 ### Session Start
 
 1. **Load context** — `.claude/handoff.md` (pending work), `MEMORY.md` (permanent rules), `.claude/instincts.md` (0.7+ patterns). Missing files are fine — start clean, don't block.
-2. **Detect the project** — confirm `package.json`/`vite.config.ts` location so `npm run` commands resolve from the first prompt.
+2. **Detect the project** — confirm `package.json`/`vite.config.ts` location so `pnpm run` commands resolve from the first prompt.
 3. **Present a resume summary** — last session's work, pending tasks, active rules/instincts count. Ask what to work on — never auto-start pending work.
 
 ## Example

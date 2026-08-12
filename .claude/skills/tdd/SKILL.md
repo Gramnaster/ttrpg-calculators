@@ -30,7 +30,7 @@ it("attacker wins when their highest roll beats defender's highest roll", () => 
 Run it. Confirm it fails — and fails because `resolveOpposedRoll` doesn't exist yet or returns the wrong thing, not because of a typo in the test itself.
 
 ```bash
-npx vitest run logic.test.ts
+pnpm exec vitest run logic.test.ts
 ```
 
 ### Step 2: Green — Minimum Code to Pass

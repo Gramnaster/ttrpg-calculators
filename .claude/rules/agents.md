@@ -12,7 +12,7 @@ description: >
 There's no language-server MCP wired up for this stack (unlike the Roslyn MCP the sibling .NET projects use) — diagnostics come from the toolchain directly.
 
 - **DO** use `Grep`/`Glob` to find a symbol, component, or usage before reading a whole file. A 300-line component costs real context; a targeted grep costs almost nothing.
-- **DO** run `npx tsc --noEmit` for type diagnostics and `npx eslint .` for lint diagnostics instead of guessing whether something type-checks or lints clean.
+- **DO** run `pnpm exec tsc --noEmit` for type diagnostics and `pnpm exec eslint .` for lint diagnostics instead of guessing whether something type-checks or lints clean.
 - **DO** check `src/calculators/<name>/` structure (via `Glob`) before assuming where a calculator's files live — see `rules/architecture.md` for the expected shape.
 - **DON'T** read an entire component file to find one function or one prop. Grep for it first.
 
@@ -39,8 +39,8 @@ There's no language-server MCP wired up for this stack (unlike the Roslyn MCP th
 | Need | Tool / Approach |
 |---|---|
 | Find where a component/function is defined | `Grep` |
-| Check for type errors | `npx tsc --noEmit` |
-| Check for lint issues | `npx eslint .` |
+| Check for type errors | `pnpm exec tsc --noEmit` |
+| Check for lint issues | `pnpm exec eslint .` |
 | Understand a calculator's folder shape | `Glob` on `src/calculators/<name>/**` |
 | Parallel research | Subagent |
 | Animation/architecture trade-off | Opus + specialist agent |

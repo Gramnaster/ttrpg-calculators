@@ -21,7 +21,7 @@ Work through these in order — earlier items are cheaper to check and often rev
 Check `package.json` against actual imports (`Grep` for the package name across `src/`). A dependency installed for an experiment that didn't pan out is dead weight in the bundle and the vulnerability surface (`rules/security.md`).
 
 ```bash
-npx depcheck   # if installed; otherwise grep package.json deps against src/ imports manually
+pnpm exec depcheck   # if installed; otherwise grep package.json deps against src/ imports manually
 ```
 
 ### 3. Speculative Abstractions
@@ -49,7 +49,7 @@ A `// TODO` with no ticket/context and no sign of being acted on in months is ei
 1. Confirm scope with the user if it's not obvious ("clean up this file" vs. "clean up the whole app").
 2. Work the checklist above.
 3. **Don't fix unrelated things you notice along the way** — per this project's Surgical Changes standard, note them instead of drive-by-fixing (mention them at the end, don't silently expand scope).
-4. Run `npx tsc --noEmit` after removals — an export can be part of another module's public surface even with no obvious usage in a quick grep.
+4. Run `pnpm exec tsc --noEmit` after removals — an export can be part of another module's public surface even with no obvious usage in a quick grep.
 5. Run the test suite — deleted code with no test coverage doesn't announce itself as broken; a removal that changes behavior should fail a test if one exists.
 
 ## Anti-pattern: Refactoring Instead of Removing

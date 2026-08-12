@@ -13,7 +13,7 @@ config — `settings.json` is the one Claude Code actually reads):
 |---|---|---|
 | `pre-bash-guard.sh` | PreToolUse (Bash) | Blocks destructive commands (force push, `git reset --hard`, unsafe `rm -rf`) |
 | `post-edit-format.sh` | PostToolUse (Edit\|Write) | Runs Prettier + ESLint `--fix` on edited `.ts`/`.tsx`/`.css`/`.json`/`.md` files |
-| `post-scaffold-install.sh` | PostToolUse (Edit\|Write) | Runs `npm install` after `package.json` changes |
+| `post-scaffold-install.sh` | PostToolUse (Edit\|Write) | Runs `pnpm install` after `package.json` changes |
 
 ## Git pre-commit hooks (install manually)
 
@@ -38,4 +38,4 @@ Run these directly or let kit skills (`verify`, `tdd`) invoke them:
 | Script | Usage |
 |---|---|
 | `pre-build-validate.sh` | `bash hooks/pre-build-validate.sh [project-dir]` — checks project structure (package.json, tsconfig, vite config, eslint config, calculator test coverage) |
-| `post-test-analyze.sh` | `npm run test 2>&1 \| bash hooks/post-test-analyze.sh` — summarizes Vitest results with actionable next steps |
+| `post-test-analyze.sh` | `pnpm test 2>&1 \| bash hooks/post-test-analyze.sh` — summarizes Vitest results with actionable next steps |

@@ -28,6 +28,7 @@ src/routes/ (or App.tsx)    — wires calculators to React Router paths
 
 | Concern | Choice | Notes |
 |---|---|---|
+| Package manager | pnpm 11.x, pinned via `packageManager` in `package.json` | No npm/`npx` — see `rules/packages.md` |
 | Build tool | Vite 8.x | Verify current major before init — `rules/packages.md` |
 | UI | React 19.x | Function components only, no class components |
 | Language | TypeScript, strict mode | `Nullable`-equivalent discipline: no `any` |
@@ -38,7 +39,7 @@ src/routes/ (or App.tsx)    — wires calculators to React Router paths
 | Deployment | GitHub Actions → GitHub Pages (`actions/upload-pages-artifact` + `actions/deploy-pages`) | `skills/ci-cd` |
 | Animation | CSS (`transform`/`opacity` only) + native View Transitions API | No animation library — `rules/animations.md` |
 
-Re-verify every version against live docs before running the actual `npm install` — see
+Re-verify every version against live docs before running the actual `pnpm install` — see
 `rules/packages.md`. This table is a plan, not a lockfile.
 
 ## Compliance Scope

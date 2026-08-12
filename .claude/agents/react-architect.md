@@ -32,7 +32,7 @@ Also reference:
 No language-server MCP is wired up for this stack. Use:
 - `Glob` on `src/calculators/**` to see the current shape before proposing changes to it
 - `Grep` for a symbol/component name before assuming where it lives
-- `npx tsc --noEmit` to confirm a structural change doesn't break type-checking
+- `pnpm exec tsc --noEmit` to confirm a structural change doesn't break type-checking
 
 ### When NOT to Investigate Deeply
 - Greenfield calculator with no existing code to reconcile against — just follow `skills/scaffold`.

@@ -18,9 +18,9 @@ description: >
 ### Step 2: Run Diagnostics
 
 ```bash
-npx tsc --noEmit
-npx eslint .
-npx vitest run
+pnpm exec tsc --noEmit
+pnpm exec eslint .
+pnpm exec vitest run
 ```
 
 Any new failure here is a Critical Issue, not a Suggestion — a review that misses a build break isn't a review.
@@ -75,7 +75,7 @@ rules/animations.md. Use transform: translateY() instead. [code]"
 "This looks like it should type-check fine."
 
 # GOOD
-[ran npx tsc --noEmit] "0 errors. [ran npx eslint .] 1 warning: unused import
+[ran pnpm exec tsc --noEmit] "0 errors. [ran pnpm exec eslint .] 1 warning: unused import
 in OpposedRollCalculator.tsx line 3."
 ```
 

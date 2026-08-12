@@ -3,7 +3,7 @@ name: workflow-mastery
 description: >
   Claude Code workflow mastery for this app — parallel git worktrees, plan
   mode strategy, verification loops, auto-formatting hooks, pre-allowed
-  npm permissions, prompting techniques, subagent patterns, and context
+  pnpm permissions, prompting techniques, subagent patterns, and context
   discipline (Grep/Glob-first navigation instead of an MCP server, token
   budget management). Load when setting up Claude Code for this project,
   optimizing workflow, running parallel sessions, or when context is
@@ -20,9 +20,9 @@ description: >
 
 1. **Parallel over sequential** — Run multiple Claude sessions via git worktrees: build a calculator in one, fix a bug in another, chase an animation-perf issue in a third.
 2. **Plan then execute** — For anything non-trivial, `/plan` first, iterate until solid, then let Claude execute with auto-accept.
-3. **Verification closes the loop** — `npx tsc --noEmit`, `npx vitest run`, `npm run build` are Claude's proof of correctness, not "it looks right." See `skills/verify`.
+3. **Verification closes the loop** — `pnpm exec tsc --noEmit`, `pnpm exec vitest run`, `pnpm run build` are Claude's proof of correctness, not "it looks right." See `skills/verify`.
 4. **Context is a budget** — This is a small app (no giant solution to navigate), but a single 300-line component still costs real tokens to read. Grep/Glob first, per `rules/agents.md`.
-5. **Automate the repetitive** — Formatting and antipattern checks are already hooks (`hooks/post-edit-format.sh`, `hooks/pre-commit-antipattern.sh`). Pre-allow safe npm permissions so they don't interrupt flow.
+5. **Automate the repetitive** — Formatting and antipattern checks are already hooks (`hooks/post-edit-format.sh`, `hooks/pre-commit-antipattern.sh`). Pre-allow safe pnpm permissions so they don't interrupt flow.
 6. **Compound your knowledge** — Every correction becomes a `MEMORY.md` rule via `instinct-system`.
 
 ## Patterns
@@ -50,7 +50,7 @@ cd ../TTRPGCalculators-anim-perf && claude
 
 Already wired in `.claude/settings.json` (see `rules/hooks.md`) — `post-edit-format.sh` runs Prettier/ESLint `--fix` on every write, `pre-commit-antipattern.sh` blocks a commit that introduces a layout-animating CSS property, a stray `any`, or `dangerouslySetInnerHTML`. Nothing to set up here beyond accepting the hooks.
 
-### Pre-Allow Safe npm Permissions
+### Pre-Allow Safe pnpm Permissions
 
 Stop clicking "allow" for routine commands. In `.claude/settings.json`:
 
@@ -58,13 +58,13 @@ Stop clicking "allow" for routine commands. In `.claude/settings.json`:
 {
   "permissions": {
     "allow": [
-      "Bash(npm run *)",
-      "Bash(npm install *)",
-      "Bash(npx tsc *)",
-      "Bash(npx eslint *)",
-      "Bash(npx vitest *)",
-      "Bash(npx vite *)",
-      "Bash(npx prettier *)"
+      "Bash(pnpm run *)",
+      "Bash(pnpm install *)",
+      "Bash(pnpm exec tsc *)",
+      "Bash(pnpm exec eslint *)",
+      "Bash(pnpm exec vitest *)",
+      "Bash(pnpm exec vite *)",
+      "Bash(pnpm exec prettier *)"
     ]
   }
 }
@@ -86,7 +86,7 @@ Stop clicking "allow" for routine commands. In `.claude/settings.json`:
 
 ### Verification Loop
 
-See `skills/verify` for the full 7-phase pipeline. The short version: always run `npx tsc --noEmit`, `npx vitest run`, and `npm run build` before declaring anything done.
+See `skills/verify` for the full 7-phase pipeline. The short version: always run `pnpm exec tsc --noEmit`, `pnpm exec vitest run`, and `pnpm run build` before declaring anything done.
 
 ### Compounding Knowledge via Corrections
 
@@ -104,7 +104,7 @@ result type a discriminated union, does the CSS only animate transform/opacity?"
 **Demand proof:**
 ```
 "Prove this works. Run the tests and show me the output. Then run
-npx vite build && npx vite preview and confirm the calculator renders."
+pnpm exec vite build && pnpm exec vite preview and confirm the calculator renders."
 ```
 
 **After a mediocre fix:**
@@ -220,10 +220,10 @@ Grep for the pattern you need, read the 1-2 files you'll actually touch
 | Scenario | Recommendation |
 |---|---|
 | Task touches 3+ files | `/plan` first |
-| Simple bug fix | Just fix it, verify with `npx vitest run` |
+| Simple bug fix | Just fix it, verify with `pnpm exec vitest run` |
 | Need to build + test + review | 3 parallel worktrees |
 | CI keeps failing on format | Confirm `post-edit-format.sh` hook is active |
-| Tired of permission prompts | Pre-allow `npm run *` / `npx vitest *` etc. |
+| Tired of permission prompts | Pre-allow `pnpm run *` / `pnpm exec vitest *` etc. |
 | Claude made a mistake | "Update MEMORY.md so this doesn't recur" |
 | Code feels hacky | "Knowing everything you know now, implement the simple version" |
 | Want a second opinion on a plan | Spin up a second session as reviewer |

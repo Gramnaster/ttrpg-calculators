@@ -2,7 +2,7 @@
 # Post-test hook: analyze Vitest output and print an actionable summary
 #
 # Usage: pipe vitest output or pass a log file as argument.
-#   npm run test 2>&1 | bash hooks/post-test-analyze.sh
+#   pnpm test 2>&1 | bash hooks/post-test-analyze.sh
 #   bash hooks/post-test-analyze.sh <test-output.log>
 
 set -uo pipefail
@@ -16,7 +16,7 @@ else
     if [[ ! -t 0 ]]; then
         TEST_OUTPUT=$(cat)
     else
-        echo "Usage: npm run test 2>&1 | bash hooks/post-test-analyze.sh"
+        echo "Usage: pnpm test 2>&1 | bash hooks/post-test-analyze.sh"
         echo "   or: bash hooks/post-test-analyze.sh <test-output.log>"
         exit 0
     fi
@@ -56,7 +56,7 @@ if [[ "$FAILED" -gt 0 ]]; then
     echo ""
     echo "  Next Steps:"
     echo "  1. Fix the failing tests above"
-    echo "  2. Run 'npm run test' to verify fixes"
+    echo "  2. Run 'pnpm test' to verify fixes"
     echo "  3. If it's a logic bug (not a test bug), check rules/error-handling.md"
     echo "     for how the calculator should represent the failing case"
 else

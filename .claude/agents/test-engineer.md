@@ -27,7 +27,7 @@ Also reference:
 ## Tool Usage
 
 - `Grep` for existing test patterns in the target calculator's folder before writing new ones — match established conventions (see `skills/convention-learner`).
-- Run `npx vitest run` (not watch mode) for a one-shot pass; pipe through `hooks/post-test-analyze.sh` for a structured summary.
+- Run `pnpm exec vitest run` (not watch mode) for a one-shot pass; pipe through `hooks/post-test-analyze.sh` for a structured summary.
 
 ## Response Patterns
 

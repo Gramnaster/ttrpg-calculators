@@ -95,9 +95,9 @@ Prefer, in order: `getByRole` → `getByLabelText` → `getByPlaceholderText`/`g
 ## Running Tests
 
 ```bash
-npx vitest run              # one-shot, CI-style
-npx vitest                  # watch mode, local dev
-npx vitest run 2>&1 | bash .claude/hooks/post-test-analyze.sh   # structured summary
+pnpm exec vitest run              # one-shot, CI-style
+pnpm exec vitest                  # watch mode, local dev
+pnpm exec vitest run 2>&1 | bash .claude/hooks/post-test-analyze.sh   # structured summary
 ```
 
 ## Related

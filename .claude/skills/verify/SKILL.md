@@ -5,24 +5,24 @@ description: >
   scan, tests, build, security audit, and format check — each phase
   reporting PASS/WARN/FAIL, short-circuiting on critical failures. Use
   when: "verify", "check everything", "is this ready", "pre-PR check",
-  "run all checks", "npm run verify".
+  "run all checks", "pnpm run verify".
 ---
 
 # /verify — Full Verification Pipeline
 
 ## What
 
-Runs `npm run verify` (or the equivalent commands individually) as a sequential pipeline, each phase reporting an explicit PASS, WARN, or FAIL. This app is small enough that the whole pipeline runs in seconds — there's no excuse to skip phases because a change "looks safe." Two phases are critical and short-circuit the pipeline: a codebase that doesn't typecheck or has failing tests makes every later phase meaningless.
+Runs `pnpm run verify` (or the equivalent commands individually) as a sequential pipeline, each phase reporting an explicit PASS, WARN, or FAIL. This app is small enough that the whole pipeline runs in seconds — there's no excuse to skip phases because a change "looks safe." Two phases are critical and short-circuit the pipeline: a codebase that doesn't typecheck or has failing tests makes every later phase meaningless.
 
 | Phase | Command | Catches | Critical |
 |---|---|---|---|
-| 1. TypeScript | `npx tsc --noEmit` | Type errors, `strict` violations | Yes |
-| 2. Lint | `npx eslint .` | Style violations, `react-hooks` rule breaks, `no-explicit-any` | No |
+| 1. TypeScript | `pnpm exec tsc --noEmit` | Type errors, `strict` violations | Yes |
+| 2. Lint | `pnpm exec eslint .` | Style violations, `react-hooks` rule breaks, `no-explicit-any` | No |
 | 3. Antipatterns | grep-based (see below) | Layout-property CSS animation, `any`, `dangerouslySetInnerHTML` | No |
-| 4. Tests | `npx vitest run` | Failing logic/component tests | Yes |
-| 5. Build | `npm run build` | Import resolution, Vite `base` path issues | Yes |
-| 6. Security | `npm audit` | Known vulnerabilities in dependencies | FAIL on high/critical |
-| 7. Format | `npx prettier --check .` + diff review | Style drift, accidental/debug changes | No |
+| 4. Tests | `pnpm exec vitest run` | Failing logic/component tests | Yes |
+| 5. Build | `pnpm run build` | Import resolution, Vite `base` path issues | Yes |
+| 6. Security | `pnpm audit` | Known vulnerabilities in dependencies | FAIL on high/critical |
+| 7. Format | `pnpm exec prettier --check .` + diff review | Style drift, accidental/debug changes | No |
 
 ## When
 
@@ -48,7 +48,7 @@ Full pipeline is the default for a PR. For scoped in-session checks:
 ### Phase 1: TypeScript (CRITICAL)
 
 ```bash
-npx tsc --noEmit
+pnpm exec tsc --noEmit
 ```
 
 Stop and fix on any error — nothing downstream is meaningful on code that doesn't typecheck.
@@ -56,7 +56,7 @@ Stop and fix on any error — nothing downstream is meaningful on code that does
 ### Phase 2: Lint
 
 ```bash
-npx eslint .
+pnpm exec eslint .
 ```
 
 `react-hooks/exhaustive-deps` and `@typescript-eslint/no-explicit-any` findings are real bugs, not style noise — see `skills/build-fix` for the common fixes.
@@ -72,7 +72,7 @@ The same checks `hooks/pre-commit-antipattern.sh` runs, done here proactively ra
 ### Phase 4: Tests (CRITICAL)
 
 ```bash
-npx vitest run
+pnpm exec vitest run
 ```
 
 Any failing test is a FAIL. A calculator with no `logic.test.ts` is a WARN, not a FAIL, but flag it — `rules/testing.md` expects thorough coverage for every calculator's math.
@@ -80,7 +80,7 @@ Any failing test is a FAIL. A calculator with no `logic.test.ts` is a WARN, not 
 ### Phase 5: Build (CRITICAL)
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Catches import resolution issues and the Vite `base`-path misconfiguration that only shows up at build/deploy time, not in dev (`skills/ci-cd`).
@@ -88,7 +88,7 @@ Catches import resolution issues and the Vite `base`-path misconfiguration that 
 ### Phase 6: Security
 
 ```bash
-npm audit
+pnpm audit
 ```
 
 PASS / WARN (moderate/low) / FAIL (high/critical) — see `rules/security.md`. For a client-only bundle, a vulnerable dependency still ships to every visitor.
@@ -96,7 +96,7 @@ PASS / WARN (moderate/low) / FAIL (high/critical) — see `rules/security.md`. F
 ### Phase 7: Format + Diff Review
 
 ```bash
-npx prettier --check .
+pnpm exec prettier --check .
 ```
 
 Then review `git diff --stat` and `git diff` for accidental file changes, debug `console.log`s, and unresolved TODOs.

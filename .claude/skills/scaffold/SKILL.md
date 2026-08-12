@@ -102,9 +102,9 @@ Add the lazy import + `<Route>` entry (`skills/project-structure`), and a `<Link
 ### Step 9: Verify
 
 ```bash
-npx tsc --noEmit
-npx eslint .
-npx vitest run src/calculators/<name>
+pnpm exec tsc --noEmit
+pnpm exec eslint .
+pnpm exec vitest run src/calculators/<name>
 ```
 
 Fix and re-run before reporting done.

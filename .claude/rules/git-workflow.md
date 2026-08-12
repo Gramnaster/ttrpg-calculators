@@ -40,7 +40,7 @@ description: >
 
 ## PR Process
 
-- **DO** run `npm run verify` (or the `skills/verify` pipeline: lint + typecheck + test + build) before opening a PR.
+- **DO** run `pnpm run verify` (or the `skills/verify` pipeline: lint + typecheck + test + build) before opening a PR.
 - **DO** keep PRs focused — a new calculator, a fix, or a refactor, not a mix.
 - **DO** confirm the GitHub Pages preview/build actually renders before merging (this is a visual, deployed app — a green CI run alone doesn't prove the page looks right).
 

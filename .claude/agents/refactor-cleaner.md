@@ -24,7 +24,7 @@ Contextually:
 ## Tool Usage
 
 - `Grep` for all usages of a symbol before deleting it — confirm it's genuinely unused, not just unused in the file you happened to be looking at.
-- `npx tsc --noEmit` after removal — an unused export can still be part of the public surface of a module that something else imports.
+- `pnpm exec tsc --noEmit` after removal — an unused export can still be part of the public surface of a module that something else imports.
 
 ## Response Patterns
 

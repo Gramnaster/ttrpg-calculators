@@ -63,11 +63,11 @@ There is no MCP server for this stack (unlike the sibling .NET projects' Roslyn 
 |---|---|---|
 | Find where a component/function is defined | `Grep` | Reading files top to bottom |
 | Find all usages of a symbol | `Grep` | Reading every file that might reference it |
-| Check for type errors | `npx tsc --noEmit` | Guessing from a previous run |
-| Check for lint issues | `npx eslint .` | Guessing |
+| Check for type errors | `pnpm exec tsc --noEmit` | Guessing from a previous run |
+| Check for lint issues | `pnpm exec eslint .` | Guessing |
 | Understand a calculator's folder shape | `Glob` on `src/calculators/<name>/**` | Reading each file individually |
 | Check test coverage for a calculator | `Glob` for `*.test.ts`/`*.test.tsx` alongside `logic.ts` | Manual inspection |
-| Find dead exports | `Grep` the export name across `src/` | `npx depcheck` alone (deps only, not exports) |
+| Find dead exports | `Grep` the export name across `src/` | `pnpm exec depcheck` alone (deps only, not exports) |
 
 ## Cross-Agent Meta Skills
 

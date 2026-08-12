@@ -20,12 +20,12 @@ description: >
 
 ## Post-Test Analysis
 
-- **DO** pipe test output through `hooks/post-test-analyze.sh` when running test workflows (`npm run test 2>&1 | bash hooks/post-test-analyze.sh`) and act on its summary.
+- **DO** pipe test output through `hooks/post-test-analyze.sh` when running test workflows (`pnpm test 2>&1 | bash hooks/post-test-analyze.sh`) and act on its summary.
 
 ## Hook Infrastructure
 
 - **DON'T** interfere with hook configuration. `pre-bash-guard.sh`, `post-edit-format.sh`, and `post-scaffold-install.sh` run automatically via `.claude/settings.json`; pre-commit scripts run via git. See `hooks/README.md` for the full map.
-- **DO** wait for `post-scaffold-install.sh` to finish after `package.json` changes before running anything that needs the new dependency — `npm install` must complete before the package is resolvable.
+- **DO** wait for `post-scaffold-install.sh` to finish after `package.json` changes before running anything that needs the new dependency — `pnpm install` must complete before the package is resolvable.
 
 ## Quick Reference
 

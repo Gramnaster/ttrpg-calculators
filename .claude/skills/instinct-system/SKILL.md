@@ -123,9 +123,9 @@ Log to `.claude/learning-log.md` the moment it happens:
 
 ```markdown
 ## 2026-08-12 | Gotcha | Vite base path only breaks at deploy, not build
-`npm run build` succeeds locally regardless of a wrong `base` in
+`pnpm run build` succeeds locally regardless of a wrong `base` in
 vite.config.ts — the blank-page/404 symptom only appears once served from
-the actual GitHub Pages subpath. `npm run preview` doesn't catch it either
+the actual GitHub Pages subpath. `pnpm run preview` doesn't catch it either
 unless `base` is set correctly first.
 **Files:** vite.config.ts
 **Resolution:** Always verify against the deployed Pages URL, not just preview.

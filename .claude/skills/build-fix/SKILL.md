@@ -16,9 +16,9 @@ description: >
 4. Re-run to confirm, then move to the next error if any remain.
 
 ```bash
-npx tsc --noEmit
-npx vite build
-npx eslint .
+pnpm exec tsc --noEmit
+pnpm exec vite build
+pnpm exec eslint .
 ```
 
 ## Common TypeScript Errors
