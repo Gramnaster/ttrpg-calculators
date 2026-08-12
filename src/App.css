@@ -19,6 +19,20 @@
   font-size: 0.9rem;
 }
 
+.calculator-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.calculator-nav li + li {
+  margin-top: 0.5rem;
+}
+
+.calculator-nav a {
+  color: var(--text);
+}
+
 main {
   padding: 1.5rem;
 }
