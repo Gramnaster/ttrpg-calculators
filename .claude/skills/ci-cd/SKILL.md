@@ -22,12 +22,12 @@ This is the single most common reason a correctly-built Vite app shows a blank p
 ```ts
 // vite.config.ts
 export default defineConfig({
-  base: "/TTRPGCalculators/", // match the actual repo name once it's created
+  base: "/ttrpg-calculators/", // must match the GitHub repo name exactly, including case
   plugins: [react()],
 });
 ```
 
-Confirm the actual repo name before hardcoding this — don't assume it matches the local folder name.
+Confirm the actual repo name (`git remote -v`) before hardcoding this — don't assume it matches the local folder name. The local folder here is `TTRPGCalculators`; the actual GitHub repo is `Gramnaster/ttrpg-calculators` (lowercase) — a mismatch that broke the deployed site once already.
 
 ## Workflow
 

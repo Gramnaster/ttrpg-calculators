@@ -2,7 +2,7 @@
 
 A collection of dice-probability calculators for tabletop role-playing games. Each calculator solves one system's resolution math and reports the exact odds for every outcome.
 
-Live site: <https://gramnaster.github.io/TTRPGCalculators/>
+Live site: <https://gramnaster.github.io/ttrpg-calculators/>
 
 ## Calculators
 

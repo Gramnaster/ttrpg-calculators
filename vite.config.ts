@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "/TTRPGCalculators/", // matches the GitHub repo name — see skills/ci-cd
+  base: "/ttrpg-calculators/", // matches the GitHub repo name (Gramnaster/ttrpg-calculators) — see skills/ci-cd
   plugins: [react(), tailwindcss()],
   test: {
     environment: "jsdom",
