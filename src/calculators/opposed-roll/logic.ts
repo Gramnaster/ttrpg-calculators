@@ -1,27 +1,12 @@
-const MIN_SKILL = 1;
-const MAX_SKILL = 100;
-const EFFECTIVE_SKILL_FLOOR = 5;
-const DIE_FACES = 100;
-// 95-00 always fails as a moderate failure, even against an effective skill
-// high enough to otherwise succeed. Rolls that fail on their own merits keep
-// their normal critical-failure-on-doubles classification.
-const AUTO_FAIL_MIN_ROLL = 95;
-
-export type SuccessLevel =
-  "criticalFailure" | "moderateFailure" | "moderateSuccess" | "criticalSuccess";
-
-const SUCCESS_LEVEL_RANK: Record<SuccessLevel, number> = {
-  criticalFailure: 0,
-  moderateFailure: 1,
-  moderateSuccess: 2,
-  criticalSuccess: 3,
-};
-
-export interface SkillInput {
-  skillValue: number;
-  modifier: number;
-  useAltCrit: boolean;
-}
+import {
+  classifySuccessLevel,
+  DIE_FACES,
+  getEffectiveSkill,
+  SUCCESS_LEVEL_RANK,
+  validateSkillInput,
+  type SkillInput,
+  type SuccessLevel,
+} from "../../shared/successLevel";
 
 export interface OpposedRollProbabilities {
   effectiveSkillA: number;
@@ -51,28 +36,6 @@ export type OpposedRollResult =
   | { kind: "success"; probabilities: OpposedRollProbabilities }
   | { kind: "invalidInput"; reason: string };
 
-function getEffectiveSkill(input: SkillInput): number {
-  return Math.max(EFFECTIVE_SKILL_FLOOR, input.skillValue + input.modifier);
-}
-
-function classifyRoll(
-  effectiveSkill: number,
-  roll: number,
-  useAltCrit: boolean,
-): SuccessLevel {
-  const wouldSucceed = roll <= effectiveSkill;
-  const isDouble = roll % 11 === 0; // 11, 22, ..., 99
-  const isMultipleOfTen = useAltCrit && roll % 10 === 0; // 10, 20, ..., 100
-
-  if (wouldSucceed && roll >= AUTO_FAIL_MIN_ROLL) {
-    return "moderateFailure";
-  }
-  if (wouldSucceed) {
-    return isDouble || isMultipleOfTen ? "criticalSuccess" : "moderateSuccess";
-  }
-  return isDouble ? "criticalFailure" : "moderateFailure";
-}
-
 function compareRolls(
   levelA: SuccessLevel,
   rollA: number,
@@ -91,20 +54,6 @@ function compareRolls(
     return rollA > rollB ? "a" : "b";
   }
   return "tie";
-}
-
-function validateSkillInput(input: SkillInput, label: string): string | null {
-  if (
-    !Number.isInteger(input.skillValue) ||
-    input.skillValue < MIN_SKILL ||
-    input.skillValue > MAX_SKILL
-  ) {
-    return `${label} skill must be a whole number between ${MIN_SKILL} and ${MAX_SKILL}.`;
-  }
-  if (!Number.isInteger(input.modifier)) {
-    return `${label} modifier must be a whole number.`;
-  }
-  return null;
 }
 
 export function resolveOpposedRoll(
@@ -139,9 +88,17 @@ export function resolveOpposedRoll(
   const totalOutcomes = DIE_FACES * DIE_FACES;
 
   for (let rollA = 1; rollA <= DIE_FACES; rollA++) {
-    const levelA = classifyRoll(effectiveSkillA, rollA, sideA.useAltCrit);
+    const levelA = classifySuccessLevel(
+      effectiveSkillA,
+      rollA,
+      sideA.useAltCrit,
+    );
     for (let rollB = 1; rollB <= DIE_FACES; rollB++) {
-      const levelB = classifyRoll(effectiveSkillB, rollB, sideB.useAltCrit);
+      const levelB = classifySuccessLevel(
+        effectiveSkillB,
+        rollB,
+        sideB.useAltCrit,
+      );
       const winner = compareRolls(levelA, rollA, levelB, rollB);
 
       if (winner === "a") {

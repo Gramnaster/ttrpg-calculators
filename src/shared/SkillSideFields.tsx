@@ -1,5 +1,5 @@
 import type { ChangeEvent } from "react";
-import type { SkillInput } from "./logic";
+import type { SkillInput } from "./successLevel";
 
 export interface SkillSideFieldsProps {
   legend: string;

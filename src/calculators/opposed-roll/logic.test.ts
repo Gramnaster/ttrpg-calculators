@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { resolveOpposedRoll, type SkillInput } from "./logic";
+import { resolveOpposedRoll } from "./logic";
+import type { SkillInput } from "../../shared/successLevel";
 
 const evenSkill: SkillInput = {
   skillValue: 50,

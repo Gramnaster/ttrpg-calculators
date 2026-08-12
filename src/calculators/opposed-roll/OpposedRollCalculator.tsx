@@ -1,33 +1,14 @@
 import { useState } from "react";
-import { resolveOpposedRoll, type SkillInput } from "./logic";
-import { SkillSideFields } from "./SkillSideFields";
+import { resolveOpposedRoll } from "./logic";
+import { SkillSideFields } from "../../shared/SkillSideFields";
+import { StatRow } from "../../shared/StatRow";
+import type { SkillInput } from "../../shared/successLevel";
 
 const DEFAULT_SIDE: SkillInput = {
   skillValue: 50,
   modifier: 0,
   useAltCrit: false,
 };
-
-interface StatRowProps {
-  label: string;
-  value: number;
-  isLast?: boolean;
-}
-
-function StatRow({ label, value, isLast = false }: StatRowProps) {
-  return (
-    <div
-      className={`flex items-baseline justify-between gap-2 py-1.5 ${
-        isLast ? "" : "border-b border-rule"
-      }`}
-    >
-      <dt className="text-ink-muted">{label}</dt>
-      <dd className="m-0 font-mono text-base font-semibold text-ink tabular-nums">
-        {value.toFixed(2)}%
-      </dd>
-    </div>
-  );
-}
 
 export function OpposedRollCalculator() {
   const [sideA, setSideA] = useState<SkillInput>(DEFAULT_SIDE);
