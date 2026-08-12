@@ -4,7 +4,7 @@ description: >
   Dependency health check — staleness, known vulnerabilities, and Node/tool
   version drift, worth running periodically on a hobby project that sits
   untouched for months at a time. Use when: "check dependencies",
-  "outdated", "npm audit", "are we behind on packages".
+  "outdated", "pnpm audit", "are we behind on packages".
 ---
 
 # /outdated — Dependency Health Check
@@ -18,7 +18,7 @@ TTRPGCalculators is a side project likely to sit untouched for weeks or months b
 ### 1. Outdated Packages
 
 ```bash
-npm outdated
+pnpm outdated
 ```
 
 Distinguish patch/minor bumps (usually safe to take immediately) from major bumps (read the changelog first — a major version can remove or rename packages entirely, as React Router did).
@@ -26,28 +26,28 @@ Distinguish patch/minor bumps (usually safe to take immediately) from major bump
 ### 2. Known Vulnerabilities
 
 ```bash
-npm audit
+pnpm audit
 ```
 
 Address `high`/`critical` findings. For a client-only static bundle, a vulnerable dependency still ships to every visitor — this isn't a "only matters for backends" concern (`rules/security.md`).
 
 ### 3. Node Version Drift
 
-Check the Node version pinned in `.github/workflows/deploy.yml` (`actions/setup-node`) against the current LTS and against what the installed packages actually require (`rules/packages.md`'s baseline table — verify it's still current, don't trust it blindly months later).
+Check the Node version pinned in `.github/workflows/deploy.yml` (`pnpm/setup`'s `runtime: node@22` input) against the current LTS and against what the installed packages actually require (`rules/packages.md`'s baseline table — verify it's still current, don't trust it blindly months later).
 
 ### 4. License Check (Light Touch)
 
 For a personal open-source-adjacent project this is low-stakes, but a quick scan for anything under a non-permissive license is cheap insurance before it matters:
 
 ```bash
-npx license-checker --summary   # if installed, or check manually for anything unusual
+pnpm exec license-checker --summary   # if installed, or check manually for anything unusual
 ```
 
 ## Process
 
 1. Run all three checks above.
 2. Report findings grouped by urgency (vulnerability > major-version-behind > minor/patch-behind).
-3. For anything proposed to upgrade, follow `rules/packages.md`: `npm install <name>` without a version pin (not a hand-typed version number), then run the full verify pipeline (`skills/verify`) to confirm nothing broke.
+3. For anything proposed to upgrade, follow `rules/packages.md`: `pnpm add <name>` without a version pin (not a hand-typed version number), then run the full verify pipeline (`skills/verify`) to confirm nothing broke.
 4. **Don't silently mass-upgrade.** A major version bump (React, React Router, Vite, Vitest) can change APIs this kit's own content assumes — flag it and update the relevant `rules/`/`skills/` content if the bump changes something documented here (e.g. if a future React Router version renames `viewTransition`).
 
 ## Report Format
@@ -56,7 +56,7 @@ npx license-checker --summary   # if installed, or check manually for anything u
 ## Dependency Health
 
 ### Vulnerabilities
-- [none found] / [package@version: severity, npm audit fix available: yes/no]
+- [none found] / [package@version: severity, pnpm audit --fix available: yes/no]
 
 ### Behind on Major Versions
 - [none] / [package: installed X, latest Y — changelog: link]

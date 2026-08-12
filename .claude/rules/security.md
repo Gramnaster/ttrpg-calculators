@@ -20,8 +20,14 @@ This app has no backend, no auth, no user accounts, and no persisted user data �
 
 ## Dependency Hygiene
 
-- **Run `npm audit` periodically** (see `skills/outdated`) and address high/critical findings. A dependency vulnerability in a client-only bundle is still shipped to every visitor.
+- **Run `pnpm audit` periodically** (see `skills/outdated`) and address high/critical findings. A dependency vulnerability in a client-only bundle is still shipped to every visitor.
 - **Don't add a dependency for something a few lines of code can do** (see `rules/performance.md`'s bundle-budget guidance) — fewer dependencies means a smaller vulnerability surface, not just a smaller bundle.
+- **Dependabot (`.github/dependabot.yml`) automates the periodic check.** It opens weekly PRs for both the `npm` ecosystem (covers `pnpm-lock.yaml` — Dependabot has no separate "pnpm" ecosystem value) and `github-actions` (keeps workflow action versions current, since a pinned Action SHA can itself carry a CVE). Routine minor/patch bumps are grouped into one PR; major-version bumps stay separate so they get the changelog read `rules/packages.md` requires before merging. This supplements, not replaces, an occasional manual `pnpm audit` for immediate high/critical findings between Dependabot's weekly runs.
+
+## Automated Security Scanning
+
+- **CodeQL (`.github/workflows/codeql.yml`) runs static analysis for JS/TypeScript** on every push to `main`, every pull request, and weekly on a schedule (so a newly-disclosed query/CVE gets checked against unchanged code, not just new commits). It's GitHub's own semantic code scanner — catches real bug classes (unsafe regex, prototype pollution, obvious XSS sinks) that ESLint's syntactic rules don't. Findings surface under the repo's Security → Code scanning tab.
+- **This requires the repo to be public** (or on a plan with GitHub Advanced Security) — CodeQL Actions-based scanning is free for public repos, billed otherwise. Confirm repo visibility before relying on this if that ever changes.
 
 ## External Links
 
