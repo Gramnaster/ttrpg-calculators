@@ -25,7 +25,11 @@ export class CalculatorErrorBoundary extends Component<
 
   render(): ReactNode {
     if (this.state.hasError) {
-      return <p role="alert">Something went wrong in this calculator.</p>;
+      return (
+        <p role="alert" className="text-accent">
+          Something went wrong in this calculator.
+        </p>
+      );
     }
     return this.props.children;
   }

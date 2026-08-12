@@ -1,44 +1,42 @@
 @import "tailwindcss";
 
-:root {
-  --text: #2b2b2f;
-  --text-muted: #5c5c63;
-  --bg: #ffffff;
-  --border: #d8d8dc;
-  --accent: #6b4fd8;
+@theme {
+  --color-paper: #f4f1e8;
+  --color-paper-raised: #fbf8f1;
+  --color-ink: #211d17;
+  --color-ink-muted: #5c5648;
+  --color-ink-faint: #8a8371;
+  --color-rule: #c9c0ac;
+  --color-accent: #7a2530;
+  --color-accent-soft: #efdee0;
 
-  font:
-    16px/1.5 system-ui,
-    "Segoe UI",
-    Roboto,
-    sans-serif;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
+  --font-display:
+    Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+  --font-sans: system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-mono:
+    ui-monospace, "SF Mono", "Cascadia Code", Consolas, "Roboto Mono", monospace;
 }
 
+/* ink-faint is AA-safe only at large/UI sizes (3.34:1) — never use it for small body text. */
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #e5e5e8;
-    --text-muted: #a3a3ab;
-    --bg: #16161a;
-    --border: #35353b;
-    --accent: #a78bfa;
+    --color-paper: #1b1814;
+    --color-paper-raised: #242019;
+    --color-ink: #ede7d8;
+    --color-ink-muted: #b5ac98;
+    --color-ink-faint: #7d7562;
+    --color-rule: #3a3428;
+    --color-accent: #e08a93;
+    --color-accent-soft: #3a2024;
   }
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+:root {
+  color-scheme: light dark;
 }
 
 body {
-  margin: 0;
-}
-
-h1,
-h2 {
-  color: var(--text);
-  font-weight: 600;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
 }
