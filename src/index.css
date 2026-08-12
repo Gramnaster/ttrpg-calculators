@@ -9,6 +9,8 @@
   --color-rule: #c9c0ac;
   --color-accent: #7a2530;
   --color-accent-soft: #efdee0;
+  --color-favor: #1f4f2c;
+  --color-favor-soft: #dfead9;
 
   --font-display:
     Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
@@ -28,6 +30,8 @@
     --color-rule: #3a3428;
     --color-accent: #e08a93;
     --color-accent-soft: #3a2024;
+    --color-favor: #8fce9e;
+    --color-favor-soft: #223828;
   }
 }
 

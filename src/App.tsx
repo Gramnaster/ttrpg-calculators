@@ -3,6 +3,18 @@ import { NavLink, Route, Routes } from "react-router";
 import { CalculatorErrorBoundary } from "./shared/CalculatorErrorBoundary";
 
 const OpposedRollCalculator = lazy(() => import("./calculators/opposed-roll"));
+const DifferentialRollCalculator = lazy(
+  () => import("./calculators/differential-roll"),
+);
+
+const navLinkClassName = ({ isActive }: { isActive: boolean }) =>
+  [
+    "block border-l-2 px-3 py-2 text-sm font-medium tracking-wide uppercase outline-none transition-colors",
+    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+    isActive
+      ? "border-accent text-accent"
+      : "border-transparent text-ink-muted hover:border-rule hover:text-ink",
+  ].join(" ");
 
 export function App() {
   return (
@@ -24,17 +36,18 @@ export function App() {
             <NavLink
               to="/opposed-roll"
               viewTransition
-              className={({ isActive }) =>
-                [
-                  "block border-l-2 px-3 py-2 text-sm font-medium tracking-wide uppercase outline-none transition-colors",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
-                  isActive
-                    ? "border-accent text-accent"
-                    : "border-transparent text-ink-muted hover:border-rule hover:text-ink",
-                ].join(" ")
-              }
+              className={navLinkClassName}
             >
               Opposed Roll
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/differential-roll"
+              viewTransition
+              className={navLinkClassName}
+            >
+              Differential Roll
             </NavLink>
           </li>
         </ul>
@@ -59,6 +72,20 @@ export function App() {
                   }
                 >
                   <OpposedRollCalculator />
+                </Suspense>
+              </CalculatorErrorBoundary>
+            }
+          />
+          <Route
+            path="/differential-roll"
+            element={
+              <CalculatorErrorBoundary>
+                <Suspense
+                  fallback={
+                    <p className="text-ink-muted">Loading calculator…</p>
+                  }
+                >
+                  <DifferentialRollCalculator />
                 </Suspense>
               </CalculatorErrorBoundary>
             }
