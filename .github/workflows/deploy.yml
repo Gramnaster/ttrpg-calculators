@@ -25,7 +25,7 @@ jobs:
       - run: pnpm exec eslint .
       - run: pnpm exec vitest run
       - run: pnpm run build
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
   deploy:
