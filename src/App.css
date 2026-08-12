@@ -1,0 +1,24 @@
+.app-shell {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: 100svh;
+}
+
+.calculator-nav {
+  border-right: 1px solid var(--border);
+  padding: 1rem;
+}
+
+.calculator-nav h1 {
+  font-size: 1.25rem;
+  margin: 0 0 1rem;
+}
+
+.calculator-nav p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+main {
+  padding: 1.5rem;
+}

@@ -1,0 +1,7 @@
+dist
+coverage
+
+# Hand-authored kit/project docs — rules/coding-style.md scopes Prettier to
+# TS/React code, not prose. Avoids reformatting .claude/ kit content authored
+# to its own conventions.
+*.md

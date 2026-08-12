@@ -1,0 +1,21 @@
+Brief:
+- This is an app that works as a collection of various TTRPG calculators. I have a main menu, and at the top left, I can select what calculator I'd like to use.
+
+Tech Stack:
+- Vite-React-TS (most recent version), HTML, CSS
+- Performant transformations only: C:\Users\jocvi\Documents\Collection-of-Folders\Obsidians\Obsidian Vault\notes\TTRPG\99 Development\high-performance-animations.md
+- Monochromatic with colours for emphasis.
+- Deployable on Github Pages
+
+Current Calculators:
+- https://github.com/Gramnaster/opposed-roll-calculator
+- https://github.com/Gramnaster/bitd-probability-calculator
+- "\\wsl.localhost\Ubuntu\home\jocvillalon\Documents\Collection-of-Folders\Programming\Personal\ttrpg-utils"
+
+Note:
+- Those are old calculators, you may use their primary elements, but I want you to make a significantly more performant and efficient one. 
+
+I actually just want the following calculators left:
+- Opposed Roll Calculator
+- Forged in the Dark / BITD Probability Calculator
+- More, but standby on this as you set up.
