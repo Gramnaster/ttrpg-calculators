@@ -51,3 +51,20 @@ export const ARMOUR_VALUES: Readonly<Record<ArmourBuild, ArmourValueRow>> = {
 // unfinished sentence -- there is nothing to implement yet, so this is a
 // fixed constant rather than a per-item field for v1.
 export const STANDARD_ARMOUR_QUALITY = 4;
+
+// Codes for the "Armour Summary" column (e.g. "C + Q + M"), matching the
+// design doc's Working Examples (which only spell out C/Q/M) extended across
+// the full Armour Type list (C, Q, H, L, M, SC, LA, SP, P, AP, CO) so every
+// build stays unambiguous -- Hide and Coat aren't in ArmourBuild (excluded,
+// see the note above), so H and CO have no entry here.
+export const BUILD_CODE: Readonly<Record<ArmourBuild, string>> = {
+  Cloth: "C",
+  Quilted: "Q",
+  Leather: "L",
+  Mail: "M",
+  Scale: "SC",
+  Lamellar: "LA",
+  Splint: "SP",
+  Plate: "P",
+  ArticulatedPlate: "AP",
+};

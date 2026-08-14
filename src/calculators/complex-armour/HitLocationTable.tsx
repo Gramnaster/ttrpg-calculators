@@ -1,5 +1,5 @@
-import type { ArmourValueRow } from "./armourValues";
-import type { HitLocationArmour } from "./logic";
+import { BUILD_CODE, type ArmourValueRow } from "./armourValues";
+import type { CoveringPiece, HitLocationArmour } from "./logic";
 
 const VALUE_COLUMNS: readonly { key: keyof ArmourValueRow; label: string }[] = [
   { key: "blunt", label: "B" },
@@ -12,6 +12,15 @@ const VALUE_COLUMNS: readonly { key: keyof ArmourValueRow; label: string }[] = [
 
 const columnHeaderClassName =
   "border border-rule bg-paper-raised p-2 font-display text-xs font-semibold tracking-wide text-ink uppercase";
+
+// e.g. "C (0) + Q (0) + M (5)" -- each piece's own Gap, not the row's
+// aggregate. See CoveringPiece's doc comment in logic.ts for why that
+// distinction matters for the Strike Gap Combat Exploit.
+function formatArmourSummary(pieces: readonly CoveringPiece[]): string {
+  return pieces
+    .map((piece) => `${BUILD_CODE[piece.build]} (${piece.gapPercent})`)
+    .join(" + ");
+}
 
 export interface HitLocationTableProps {
   rows: readonly HitLocationArmour[];
@@ -26,8 +35,8 @@ export function HitLocationTable({ rows }: HitLocationTableProps) {
       <div className="overflow-x-auto">
         <table className="w-full min-w-[720px] border-collapse text-sm">
           <caption className="sr-only">
-            Damage modifier, armour totals, Gap percentage, and covering piece
-            count for every Hit Location, derived from the current loadout
+            Damage modifier, Armour Summary, armour totals, and Gap percentage
+            for every Hit Location, derived from the current loadout
           </caption>
           <thead>
             <tr>
@@ -36,6 +45,9 @@ export function HitLocationTable({ rows }: HitLocationTableProps) {
               </th>
               <th scope="col" className={columnHeaderClassName}>
                 Dmg Mod
+              </th>
+              <th scope="col" className={columnHeaderClassName}>
+                Armour Summary
               </th>
               {VALUE_COLUMNS.map((column) => (
                 <th
@@ -48,9 +60,6 @@ export function HitLocationTable({ rows }: HitLocationTableProps) {
               ))}
               <th scope="col" className={columnHeaderClassName}>
                 Gap %
-              </th>
-              <th scope="col" className={columnHeaderClassName}>
-                Covered By
               </th>
             </tr>
           </thead>
@@ -68,6 +77,15 @@ export function HitLocationTable({ rows }: HitLocationTableProps) {
                   <td className="border border-rule p-2 text-center font-mono text-ink tabular-nums">
                     +{row.dmgMod}
                   </td>
+                  <td
+                    className={`border border-rule p-2 text-center font-mono tabular-nums ${
+                      isUncovered ? "text-ink-faint" : "text-ink"
+                    }`}
+                  >
+                    {isUncovered
+                      ? "Uncovered"
+                      : formatArmourSummary(row.coveringPieces)}
+                  </td>
                   {VALUE_COLUMNS.map((column) => (
                     <td
                       key={column.key}
@@ -78,17 +96,6 @@ export function HitLocationTable({ rows }: HitLocationTableProps) {
                   ))}
                   <td className="border border-rule p-2 text-center font-mono text-ink tabular-nums">
                     {row.gapPercent}%
-                  </td>
-                  <td
-                    className={`border border-rule p-2 text-center ${
-                      isUncovered
-                        ? "font-medium text-ink-faint"
-                        : "font-medium text-ink"
-                    }`}
-                  >
-                    {isUncovered
-                      ? "None"
-                      : `${row.coveringItemIds.length} ${row.coveringItemIds.length === 1 ? "piece" : "pieces"}`}
                   </td>
                 </tr>
               );

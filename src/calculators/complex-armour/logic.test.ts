@@ -352,6 +352,26 @@ describe("resolveHitLocationTable", () => {
       expect(byLocation.get(code)?.totals).toEqual(clothOnly);
       expect(byLocation.get(code)?.gapPercent).toBe(0);
     }
+
+    // coveringPieces backs the "Armour Summary" column (e.g. "C + Q + M"),
+    // ordered innermost-to-outermost by Garment Slot to match the doc, with
+    // each piece's OWN Gap alongside it -- distinct from the row's
+    // aggregate gapPercent asserted above.
+    expect(byLocation.get("RSh")?.coveringPieces).toEqual([
+      { itemId: "tunic", build: "Cloth", gapPercent: 0 },
+      { itemId: "gambeson", build: "Quilted", gapPercent: 0 },
+      { itemId: "mail-hauberk", build: "Mail", gapPercent: 5 },
+    ]);
+    expect(byLocation.get("Gr")?.coveringPieces).toEqual([
+      { itemId: "tunic", build: "Cloth", gapPercent: 0 },
+      { itemId: "trousers", build: "Cloth", gapPercent: 0 },
+      { itemId: "mail-hauberk", build: "Mail", gapPercent: 5 },
+      { itemId: "mail-skirt", build: "Mail", gapPercent: 5 },
+    ]);
+    expect(byLocation.get("RTg")?.coveringPieces).toEqual([
+      { itemId: "trousers", build: "Cloth", gapPercent: 0 },
+      { itemId: "mail-skirt", build: "Mail", gapPercent: 5 },
+    ]);
   });
 
   it("expands a shared item's cover to both left and right locations", () => {

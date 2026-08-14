@@ -1,6 +1,7 @@
 import {
   ARMOUR_VALUES,
   STANDARD_ARMOUR_QUALITY,
+  type ArmourBuild,
   type ArmourValueRow,
 } from "./armourValues";
 import {
@@ -24,14 +25,44 @@ export type EquipResult =
   | { kind: "conflict"; reason: string; conflictingItemIds: string[] }
   | { kind: "unknownItem" };
 
+// One covering piece's entry in a Hit Location's "Armour Summary" -- e.g.
+// "C (5) + Q (0) + M (5)" is three of these, joined for display by the view.
+// gapPercent here is that piece's OWN Gap, not the row's aggregate: the
+// Strike Gap Combat Exploit is resolved per piece (rolling under a piece's
+// own Gap% bypasses that piece specifically, not every piece stacked at the
+// location), so a player needs to see each piece's Gap individually, not
+// just the row's worst-case max (HitLocationArmour.gapPercent, unchanged).
+export interface CoveringPiece {
+  itemId: string;
+  build: ArmourBuild;
+  gapPercent: number;
+}
+
 export interface HitLocationArmour {
   location: HitLocationCode;
   label: string;
   dmgMod: number;
   coveringItemIds: string[];
+  coveringPieces: readonly CoveringPiece[];
   totals: ArmourValueRow;
   gapPercent: number;
   armourQuality: number;
+}
+
+// Innermost to outermost, matching how the design doc orders its own
+// "Armour Summary" column (e.g. "C + Q + M" lists Clothing before Padding
+// before Flexible).
+const GARMENT_SLOT_ORDER: readonly GarmentSlotType[] = [
+  "Clothing",
+  "Padding",
+  "Flexible",
+  "Rigid",
+  "Outer",
+];
+
+function primaryGarmentSlotIndex(item: CatalogItem): number {
+  const [primarySlot] = item.garmentSlots;
+  return primarySlot ? GARMENT_SLOT_ORDER.indexOf(primarySlot) : -1;
 }
 
 const ZERO_ARMOUR_VALUES: ArmourValueRow = {
@@ -151,12 +182,20 @@ export function resolveHitLocationTable(
       covering.length > 0
         ? Math.max(...covering.map((item) => item.gapPercent))
         : 0;
+    const coveringPieces: CoveringPiece[] = [...covering]
+      .sort((a, b) => primaryGarmentSlotIndex(a) - primaryGarmentSlotIndex(b))
+      .map((item) => ({
+        itemId: item.id,
+        build: item.build,
+        gapPercent: item.gapPercent,
+      }));
 
     return {
       location: location.code,
       label: location.label,
       dmgMod: location.dmgMod,
       coveringItemIds: covering.map((item) => item.id),
+      coveringPieces,
       totals,
       gapPercent,
       armourQuality: STANDARD_ARMOUR_QUALITY,
