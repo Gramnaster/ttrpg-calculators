@@ -7,6 +7,9 @@ const DifferentialRollCalculator = lazy(
   () => import("./calculators/differential-roll"),
 );
 const TorRollCalculator = lazy(() => import("./calculators/tor-roll"));
+const ComplexArmourCalculator = lazy(
+  () => import("./calculators/complex-armour"),
+);
 
 const navLinkClassName = ({ isActive }: { isActive: boolean }) =>
   [
@@ -54,6 +57,15 @@ export function App() {
           <li>
             <NavLink to="/tor-roll" viewTransition className={navLinkClassName}>
               TOR Roll
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/complex-armour"
+              viewTransition
+              className={navLinkClassName}
+            >
+              Complex Armour
             </NavLink>
           </li>
         </ul>
@@ -106,6 +118,20 @@ export function App() {
                   }
                 >
                   <TorRollCalculator />
+                </Suspense>
+              </CalculatorErrorBoundary>
+            }
+          />
+          <Route
+            path="/complex-armour"
+            element={
+              <CalculatorErrorBoundary>
+                <Suspense
+                  fallback={
+                    <p className="text-ink-muted">Loading calculator…</p>
+                  }
+                >
+                  <ComplexArmourCalculator />
                 </Suspense>
               </CalculatorErrorBoundary>
             }
