@@ -9,6 +9,7 @@ Live site: <https://gramnaster.github.io/ttrpg-calculators/>
 - **Opposed Roll Calculator** — Compares two d100 skill rolls. It classifies each roll into a success level (Critical Failure, Moderate Failure, Moderate Success, Critical Success) and reports the win, loss, and tie odds for both sides.
 - **Differential Roll Calculator** — Resolves a d100 attack roll against a Parry or Counter defense roll. It reports the odds for each outcome: attack misses, parry succeeds, attack hits, both rolls hit, or counter hits.
 - **TOR Roll Calculator** — Resolves a *The One Ring* 2e roll: one Feat Die plus a pool of Success Dice, summed against a Target Number. It reports the odds for Failure, Success, Great Success, and Extraordinary Success, plus a reference grid across Target Numbers and dice-pool sizes.
+- **Complex Armour Calculator** — Builds an armour loadout across 25 Hit Locations and 5 Garment Slots from a catalog of armour pieces spanning 9 builds (Cloth through Articulated Plate). It resolves per-Hit-Location damage reduction (Blunt/Slash/Pierce/Fire/Magic/Crush), an Armour Summary of every covering piece's own Gap% for the Strike Gap Combat Exploit, and blocks equip combinations that physically conflict for the same Mount and Garment Slot.
 
 ## Stack
 
