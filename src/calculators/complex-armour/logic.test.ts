@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  applyPreset,
   resolveHitLocationTable,
   tryEquip,
   unequip,
@@ -149,6 +150,40 @@ describe("unequip", () => {
     const next = unequip(loadout, "not-equipped");
 
     expect(next).toEqual(loadout);
+  });
+});
+
+describe("applyPreset", () => {
+  it("equips every item in the list from an empty loadout", () => {
+    const result = applyPreset(["tunic", "hose"]);
+
+    expect(result.kind).toBe("applied");
+    if (result.kind !== "applied") return;
+    expect(result.loadout).toEqual([{ itemId: "tunic" }, { itemId: "hose" }]);
+  });
+
+  it("returns an empty loadout for an empty item list", () => {
+    const result = applyPreset([]);
+
+    expect(result.kind).toBe("applied");
+    if (result.kind !== "applied") return;
+    expect(result.loadout).toEqual([]);
+  });
+
+  it("reports a conflict instead of silently dropping a colliding item", () => {
+    const result = applyPreset(["tunic", "vest"]);
+
+    expect(result.kind).toBe("conflict");
+    if (result.kind !== "conflict") return;
+    expect(result.itemId).toBe("vest");
+  });
+
+  it("reports a conflict for an unknown item id", () => {
+    const result = applyPreset(["not-a-real-item"]);
+
+    expect(result.kind).toBe("conflict");
+    if (result.kind !== "conflict") return;
+    expect(result.reason).toContain("not-a-real-item");
   });
 });
 

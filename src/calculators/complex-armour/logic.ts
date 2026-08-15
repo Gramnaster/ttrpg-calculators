@@ -163,6 +163,30 @@ export function unequip(
   return loadout.filter((piece) => piece.itemId !== itemId);
 }
 
+export type ApplyPresetResult =
+  | { kind: "applied"; loadout: EquippedPiece[] }
+  | { kind: "conflict"; reason: string; itemId: string };
+
+// Builds a fresh loadout from a preset's item list, replacing whatever was
+// equipped before. A well-formed preset (see presets.test.ts) never actually
+// conflicts with itself; this still reports a conflict rather than silently
+// dropping an item if one ever does, per rules/error-handling.md.
+export function applyPreset(itemIds: readonly string[]): ApplyPresetResult {
+  let loadout: EquippedPiece[] = [];
+  for (const itemId of itemIds) {
+    const result = tryEquip(loadout, itemId);
+    if (result.kind !== "equipped") {
+      const reason =
+        result.kind === "conflict"
+          ? result.reason
+          : `Preset references an unknown item: ${itemId}.`;
+      return { kind: "conflict", reason, itemId };
+    }
+    loadout = result.loadout;
+  }
+  return { kind: "applied", loadout };
+}
+
 export function resolveHitLocationTable(
   loadout: EquippedPiece[],
 ): HitLocationArmour[] {

@@ -73,6 +73,36 @@ describe("ComplexArmourCalculator", () => {
     );
   });
 
+  it("loads a premade set and replaces any existing loadout", () => {
+    render(<ComplexArmourCalculator />);
+    equip("hood"); // manual loadout, not part of Unarmoured A
+
+    // Defaults to Unarmoured / A (tunic, socks-right, socks-left).
+    fireEvent.click(screen.getByRole("button", { name: "Load Preset" }));
+
+    expect(screen.getByRole("status")).toHaveTextContent("3 pieces equipped");
+    expect(
+      screen.queryByRole("button", { name: "Unequip Hood" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Unequip Tunic" }),
+    ).toBeInTheDocument();
+  });
+
+  it("switches the Choice options when a different Armour Level is chosen", () => {
+    render(<ComplexArmourCalculator />);
+
+    expect(screen.queryByRole("option", { name: /^A —/ })).toBeInTheDocument();
+
+    fireEvent.change(screen.getByLabelText("Armour Level"), {
+      target: { value: "Heavy" },
+    });
+
+    expect(
+      screen.getByRole("option", { name: /^F — Full Plate Harness/ }),
+    ).toBeInTheDocument();
+  });
+
   it("persists the loadout across a remount via localStorage", () => {
     const { unmount } = render(<ComplexArmourCalculator />);
     equip("hood");

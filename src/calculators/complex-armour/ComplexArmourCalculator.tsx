@@ -4,12 +4,15 @@ import { CATALOG } from "./catalog";
 import { EquippedLoadoutPanel } from "./EquippedLoadoutPanel";
 import { HitLocationTable } from "./HitLocationTable";
 import {
+  applyPreset,
   resolveHitLocationTable,
   tryEquip,
   unequip,
   type EquipResult,
   type EquippedPiece,
 } from "./logic";
+import { PresetPicker } from "./PresetPicker";
+import { ARMOUR_PRESETS, type ArmourPreset } from "./presets";
 
 const STORAGE_KEY = "complex-armour-loadout";
 
@@ -27,6 +30,21 @@ export function ComplexArmourCalculator() {
   const [lastEquipResult, setLastEquipResult] = useState<EquipResult | null>(
     null,
   );
+  const [lastPresetConflict, setLastPresetConflict] = useState<string | null>(
+    null,
+  );
+
+  const handleApplyPreset = (preset: ArmourPreset) => {
+    const result = applyPreset(preset.itemIds);
+    if (result.kind === "applied") {
+      setLoadout(result.loadout);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(result.loadout));
+      setLastPresetConflict(null);
+      setLastEquipResult(null);
+    } else {
+      setLastPresetConflict(result.reason);
+    }
+  };
 
   const handleEquip = (itemId: string) => {
     const result = tryEquip(loadout, itemId);
@@ -65,6 +83,11 @@ export function ComplexArmourCalculator() {
           the resulting damage reduction at every Hit Location.
         </p>
       </div>
+      <PresetPicker
+        presets={ARMOUR_PRESETS}
+        onApplyPreset={handleApplyPreset}
+        lastConflictReason={lastPresetConflict}
+      />
       <ArmourPicker
         catalog={CATALOG}
         onEquip={handleEquip}
