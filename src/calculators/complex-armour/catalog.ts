@@ -883,13 +883,18 @@ export const CATALOG: readonly CatalogItem[] = [
     laterality: "shared",
   },
   {
+    // Gap 15, matching the design doc's own hand-picked value -- this had
+    // silently drifted to 5 (a plain transcription slip, never an
+    // intentional pilot change like Mittens' below). The inner thigh isn't
+    // actually protected by mail chausses, unlike a full hauberk's torso
+    // coverage, so it doesn't get the Hauberk's ~0% treatment.
     id: "mail-chausses",
     name: "Mail Chausses",
     build: "Mail",
     garmentSlots: ["Flexible"],
     mount: "Tg",
     cover: ["RTg", "LTg", "RKn", "LKn", "RCf", "LCf", "RFt", "LFt"],
-    gapPercent: 5,
+    gapPercent: 15,
     enc: 2.8,
     costSp: 1000,
     laterality: "shared",
