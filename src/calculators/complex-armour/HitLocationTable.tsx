@@ -46,7 +46,7 @@ export function HitLocationTable({ rows }: HitLocationTableProps) {
               <th scope="col" className={columnHeaderClassName}>
                 Dmg Mod
               </th>
-              <th scope="col" className={columnHeaderClassName}>
+              <th scope="col" className={`${columnHeaderClassName} text-left`}>
                 Armour Summary
               </th>
               {VALUE_COLUMNS.map((column) => (
@@ -78,7 +78,7 @@ export function HitLocationTable({ rows }: HitLocationTableProps) {
                     +{row.dmgMod}
                   </td>
                   <td
-                    className={`border border-rule p-2 text-center font-mono tabular-nums ${
+                    className={`border border-rule p-2 text-left font-mono tabular-nums ${
                       isUncovered ? "text-ink-faint" : "text-ink"
                     }`}
                   >
